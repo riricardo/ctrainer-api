@@ -1,0 +1,28 @@
+{
+  "name": "ctrainer-api",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/riricardo/ctrainer-api#readme",
+  "bugs": {
+    "url": "https://github.com/riricardo/ctrainer-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/riricardo/ctrainer-api.git"
+  },
+  "license": "ISC",
+  "author": "Ricardo Cardona",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
