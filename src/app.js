@@ -1,6 +1,7 @@
 ﻿const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+const { getDbHealth } = require("./db");
 
 const app = express();
 
@@ -15,7 +16,13 @@ app.use(
 app.use(express.json());
 
 app.get("/health", (req, res) => {
-  res.json({ status: "ok" });
+  const db = getDbHealth();
+  const isHealthOk = db.isDbUp;
+
+  const status = isHealthOk ? "ok" : "degraded";
+  const code = isHealthOk ? 200 : 503;
+
+  res.status(code).json({ status, db });
 });
 
 app.get("/", (req, res) => {
