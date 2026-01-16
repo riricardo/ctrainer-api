@@ -24,7 +24,6 @@ const createHttpApp = (container) => {
     res.status(httpStatus.ok).json({
       name: packageJson.name,
       version: packageJson.version,
-      apiVersion: env.apiVersion,
     });
   });
 
