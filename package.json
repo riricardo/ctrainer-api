@@ -13,10 +13,11 @@
   "license": "ISC",
   "author": "Ricardo Cardona",
   "type": "commonjs",
-  "main": "src/server.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "nodemon --watch src --ext ts --exec node -r ts-node/register src/server.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -27,6 +28,12 @@
     "mongoose": "^9.1.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/helmet": "^4.0.0",
+    "@types/node": "^20.11.30",
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
   }
 }
