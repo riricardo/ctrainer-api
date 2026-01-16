@@ -6,7 +6,7 @@ declare global {
       id?: string;
       auth?: {
         uid: string;
-        token: unknown;
+        token: Record<string, unknown>;
       };
     }
   }

@@ -1,7 +1,8 @@
 type MongoDocument = {
-  _id?: unknown;
+  _id?: { toString: () => string } | string | number;
   id?: string;
-  toObject?: (options?: unknown) => Record<string, unknown>;
+  __v?: number;
+  toObject?: (options?: { versionKey?: boolean }) => Record<string, unknown>;
 };
 
 const mapDocument = <T extends Record<string, unknown>>(

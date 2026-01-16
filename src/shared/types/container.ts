@@ -3,7 +3,9 @@ import { WorkoutLogsRepository } from "../../modules/workout-logs/workout-logs.r
 
 export type AppContainer = {
   authProvider: {
-    verifyIdToken: (token: string) => Promise<unknown>;
+    verifyIdToken: (
+      token: string
+    ) => Promise<{ uid: string } & Record<string, unknown>>;
   };
   workoutsRepository: WorkoutsRepository;
   workoutLogsRepository: WorkoutLogsRepository;

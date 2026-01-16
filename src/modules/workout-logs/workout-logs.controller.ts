@@ -21,8 +21,8 @@ const buildWorkoutLogsController = (container: AppContainer) => {
       const log = await createWorkoutLog({
         ownerUserId: req.auth!.uid,
         workoutId: req.body.workoutId,
-        startedAt: req.body.startedAt,
-        endedAt: req.body.endedAt,
+        startedAt: req.body.startedAt ? new Date(req.body.startedAt) : undefined,
+        endedAt: req.body.endedAt ? new Date(req.body.endedAt) : undefined,
         durationSeconds: req.body.durationSeconds,
         notes: req.body.notes,
         exercises: req.body.exercises,

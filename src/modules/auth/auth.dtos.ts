@@ -1,4 +1,4 @@
 export type AuthUserResponse = {
   uid: string;
-  token: unknown;
+  token: Record<string, unknown>;
 };

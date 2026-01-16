@@ -3,7 +3,9 @@ import AppError from "../shared/errors/AppError";
 import httpStatus from "../shared/http/http-status";
 
 const requireAuth =
-  (authProvider: { verifyIdToken: (token: string) => Promise<unknown> }) =>
+  (authProvider: {
+    verifyIdToken: (token: string) => Promise<{ uid: string } & Record<string, unknown>>;
+  }) =>
   async (req: Request, res: Response, next: NextFunction) => {
   try {
     const header = req.headers.authorization || "";
@@ -17,13 +19,14 @@ const requireAuth =
       );
     }
 
-    const decoded = (await authProvider.verifyIdToken(token)) as any;
+    const decoded = await authProvider.verifyIdToken(token);
     req.auth = { uid: decoded.uid, token: decoded };
 
     return next();
-  } catch (err: any) {
-    const status = err.status || httpStatus.unauthorized;
-    const code = err.code || "invalid_token";
+  } catch (err: unknown) {
+    const error = err as { status?: number; code?: string };
+    const status = error.status || httpStatus.unauthorized;
+    const code = error.code || "invalid_token";
     return next(new AppError("Invalid auth token", status, code));
   }
 };

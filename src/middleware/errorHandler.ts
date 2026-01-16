@@ -8,7 +8,12 @@ const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  const error = err as any;
+  const error = err as {
+    status?: number;
+    code?: string;
+    details?: unknown;
+    message?: string;
+  };
   const isAppError = err instanceof AppError;
   const status = isAppError
     ? err.status

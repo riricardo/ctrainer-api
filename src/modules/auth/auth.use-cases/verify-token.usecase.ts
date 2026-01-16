@@ -1,5 +1,5 @@
 const verifyTokenUseCase =
-  ({ authProvider }: { authProvider: { verifyIdToken: (token: string) => Promise<unknown> } }) =>
+  ({ authProvider }: { authProvider: { verifyIdToken: (token: string) => Promise<{ uid: string } & Record<string, unknown>> } }) =>
   async (token: string) =>
     authProvider.verifyIdToken(token);
 

@@ -1,6 +1,10 @@
 import AppError from "../../../shared/errors/AppError";
 import httpStatus from "../../../shared/http/http-status";
-import { WorkoutsRepository } from "../workouts.repositories/workouts.repository";
+import {
+  WorkoutInput,
+  WorkoutsRepository,
+} from "../workouts.repositories/workouts.repository";
+import { WorkoutDocument } from "../workouts.model";
 
 const copyWorkoutUseCase =
   ({ workoutsRepository }: { workoutsRepository: WorkoutsRepository }) =>
@@ -18,21 +22,27 @@ const copyWorkoutUseCase =
       throw new AppError("Forbidden", httpStatus.forbidden, "forbidden");
     }
 
-    const copyData = workout.toObject ? workout.toObject() : workout;
+    const copyData = (workout.toObject ? workout.toObject() : workout) as WorkoutDocument;
     const {
       _id,
       __v,
       ownerUserId: originalOwner,
       createdAt,
       updatedAt,
-      ...rest
+      title,
+      description,
+      exercises,
     } = copyData;
 
-    return workoutsRepository.create({
-      ...(rest as any),
+    const payload: WorkoutInput = {
       ownerUserId,
+      title,
+      description,
       isPublic: false,
-    });
+      exercises,
+    };
+
+    return workoutsRepository.create(payload);
   };
 
 export default copyWorkoutUseCase;
