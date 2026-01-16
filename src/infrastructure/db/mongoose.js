@@ -1,20 +1,17 @@
 const mongoose = require("mongoose");
+const env = require("../../config/env");
 
 const connectDb = async () => {
-  const uri = process.env.MONGO_URI;
-
-  if (!uri) {
+  if (!env.mongoUri) {
     throw new Error("MONGO_URI is not set");
   }
 
   const options = {};
-  const dbName = process.env.MONGO_DB_NAME;
-
-  if (dbName) {
-    options.dbName = dbName;
+  if (env.mongoDbName) {
+    options.dbName = env.mongoDbName;
   }
 
-  await mongoose.connect(uri, options);
+  await mongoose.connect(env.mongoUri, options);
 };
 
 const getDbHealth = () => {
