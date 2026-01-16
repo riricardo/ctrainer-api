@@ -1,8 +1,12 @@
 import AppError from "../../../shared/errors/AppError";
 import httpStatus from "../../../shared/http/http-status";
+import {
+  WorkoutUpdate,
+  WorkoutsRepository,
+} from "../workouts.repositories/workouts.repository";
 
 const updateWorkoutUseCase =
-  ({ workoutsRepository }: { workoutsRepository: any }) =>
+  ({ workoutsRepository }: { workoutsRepository: WorkoutsRepository }) =>
   async ({
     id,
     ownerUserId,
@@ -10,7 +14,7 @@ const updateWorkoutUseCase =
   }: {
     id: string;
     ownerUserId: string;
-    updates: unknown;
+    updates: WorkoutUpdate;
   }) => {
     const workout = await workoutsRepository.findById(id);
     if (!workout) {

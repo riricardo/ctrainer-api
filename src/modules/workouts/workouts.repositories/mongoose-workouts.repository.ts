@@ -1,8 +1,16 @@
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
+import {
+  WorkoutInput,
+  WorkoutRecord,
+  WorkoutUpdate,
+  WorkoutsRepository,
+} from "./workouts.repository";
 
 const { Schema } = mongoose;
 
-const workoutSchema = new Schema(
+type WorkoutDocument = WorkoutRecord & mongoose.Document;
+
+const workoutSchema = new Schema<WorkoutDocument>(
   {
     ownerUserId: { type: String, required: true, index: true },
     title: { type: String, required: true, trim: true },
@@ -15,28 +23,29 @@ const workoutSchema = new Schema(
   }
 );
 
-const Workout: any =
-  mongoose.models.Workout || mongoose.model("Workout", workoutSchema);
+const Workout: Model<WorkoutDocument> =
+  (mongoose.models.Workout as Model<WorkoutDocument>) ||
+  mongoose.model<WorkoutDocument>("Workout", workoutSchema);
 
-const createWorkoutsRepository = () => ({
-  create: (data: unknown) => Workout.create(data),
-  findById: (id: string) => Workout.findById(id),
-  updateById: (id: string, data: unknown) =>
+const createWorkoutsRepository = (): WorkoutsRepository => ({
+  create: (data: WorkoutInput) => Workout.create(data),
+  findById: (id: string) => Workout.findById(id).exec(),
+  updateById: (id: string, data: WorkoutUpdate) =>
     Workout.findByIdAndUpdate(id, data, {
       new: true,
       runValidators: true,
-    }),
-  deleteById: (id: string) => Workout.findByIdAndDelete(id),
+    }).exec(),
+  deleteById: (id: string) => Workout.findByIdAndDelete(id).exec(),
   listByOwner: (ownerUserId: string) =>
-    Workout.find({ ownerUserId }).sort({ createdAt: -1 }),
+    Workout.find({ ownerUserId }).sort({ createdAt: -1 }).exec(),
   listPublic: (search?: string) => {
-    const query: any = { isPublic: true };
+    const query: Record<string, unknown> = { isPublic: true };
     if (search) {
       const regex = new RegExp(search, "i");
-      query.$or = [{ title: regex }, { description: regex }];
+      (query as any).$or = [{ title: regex }, { description: regex }];
     }
 
-    return Workout.find(query).sort({ createdAt: -1 });
+    return Workout.find(query).sort({ createdAt: -1 }).exec();
   },
 });
 

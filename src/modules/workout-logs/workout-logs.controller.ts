@@ -4,10 +4,8 @@ import httpStatus from "../../shared/http/http-status";
 import createWorkoutLogUseCase from "./workout-logs.use-cases/create-workout-log.usecase";
 import listMyWorkoutLogsUseCase from "./workout-logs.use-cases/list-my-workout-logs.usecase";
 import { AppContainer } from "../../shared/types/container";
-import {
-  CreateWorkoutLogRequestBody,
-  WorkoutLogResponse,
-} from "./workout-logs.dtos";
+import { CreateWorkoutLogRequestBody } from "./workout-logs.dtos";
+import { mapWorkoutLog } from "./workout-logs.mappers/workout-log.mapper";
 
 const buildWorkoutLogsController = (container: AppContainer) => {
   const { workoutLogsRepository } = container;
@@ -30,13 +28,13 @@ const buildWorkoutLogsController = (container: AppContainer) => {
         exercises: req.body.exercises,
       });
 
-      res.status(httpStatus.created).json({ data: log as WorkoutLogResponse });
+      res.status(httpStatus.created).json({ data: mapWorkoutLog(log) });
     }),
     listMy: asyncHandler(async (req: Request, res: Response) => {
       const logs = await listMyWorkoutLogs({ ownerUserId: req.auth!.uid });
       res
         .status(httpStatus.ok)
-        .json({ data: logs as WorkoutLogResponse[] });
+        .json({ data: logs.map(mapWorkoutLog) });
     }),
   };
 };

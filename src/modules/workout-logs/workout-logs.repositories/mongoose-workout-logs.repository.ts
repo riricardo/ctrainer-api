@@ -1,8 +1,15 @@
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
+import {
+  WorkoutLogInput,
+  WorkoutLogRecord,
+  WorkoutLogsRepository,
+} from "./workout-logs.repository";
 
 const { Schema } = mongoose;
 
-const workoutLogSchema = new Schema(
+type WorkoutLogDocument = WorkoutLogRecord & mongoose.Document;
+
+const workoutLogSchema = new Schema<WorkoutLogDocument>(
   {
     ownerUserId: { type: String, required: true, index: true },
     workoutId: { type: Schema.Types.ObjectId, ref: "Workout" },
@@ -17,13 +24,14 @@ const workoutLogSchema = new Schema(
   }
 );
 
-const WorkoutLog: any =
-  mongoose.models.WorkoutLog || mongoose.model("WorkoutLog", workoutLogSchema);
+const WorkoutLog: Model<WorkoutLogDocument> =
+  (mongoose.models.WorkoutLog as Model<WorkoutLogDocument>) ||
+  mongoose.model<WorkoutLogDocument>("WorkoutLog", workoutLogSchema);
 
-const createWorkoutLogsRepository = () => ({
-  create: (data: unknown) => WorkoutLog.create(data),
+const createWorkoutLogsRepository = (): WorkoutLogsRepository => ({
+  create: (data: WorkoutLogInput) => WorkoutLog.create(data),
   listByOwner: (ownerUserId: string) =>
-    WorkoutLog.find({ ownerUserId } as any).sort({ createdAt: -1 }),
+    WorkoutLog.find({ ownerUserId }).sort({ createdAt: -1 }).exec(),
 });
 
 export { createWorkoutLogsRepository };

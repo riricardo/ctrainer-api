@@ -1,8 +1,9 @@
 import AppError from "../../../shared/errors/AppError";
 import httpStatus from "../../../shared/http/http-status";
+import { WorkoutsRepository } from "../workouts.repositories/workouts.repository";
 
 const copyWorkoutUseCase =
-  ({ workoutsRepository }: { workoutsRepository: any }) =>
+  ({ workoutsRepository }: { workoutsRepository: WorkoutsRepository }) =>
   async ({ id, ownerUserId }: { id: string; ownerUserId: string }) => {
     const workout = await workoutsRepository.findById(id);
     if (!workout) {
@@ -18,11 +19,17 @@ const copyWorkoutUseCase =
     }
 
     const copyData = workout.toObject ? workout.toObject() : workout;
-    const { _id, __v, ownerUserId: originalOwner, createdAt, updatedAt, ...rest } =
-      copyData;
+    const {
+      _id,
+      __v,
+      ownerUserId: originalOwner,
+      createdAt,
+      updatedAt,
+      ...rest
+    } = copyData;
 
     return workoutsRepository.create({
-      ...rest,
+      ...(rest as any),
       ownerUserId,
       isPublic: false,
     });
