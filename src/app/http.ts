@@ -8,6 +8,8 @@ import registerRoutes from "./routes";
 import httpStatus from "../shared/http/http-status";
 import packageJson from "../../package.json";
 import { AppContainer } from "../shared/types/container";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./swagger";
 
 const createHttpApp = (container: AppContainer) => {
   const app = express();
@@ -20,6 +22,8 @@ const createHttpApp = (container: AppContainer) => {
   );
   app.use(express.json());
   app.use(requestId);
+
+  app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
   app.get("/", (req, res) => {
     res.status(httpStatus.ok).json({
