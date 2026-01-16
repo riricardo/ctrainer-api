@@ -23,16 +23,7 @@ const copyWorkoutUseCase =
     }
 
     const copyData = (workout.toObject ? workout.toObject() : workout) as WorkoutDocument;
-    const {
-      _id,
-      __v,
-      ownerUserId: originalOwner,
-      createdAt,
-      updatedAt,
-      title,
-      description,
-      exercises,
-    } = copyData;
+    const { title, description, exercises } = copyData;
 
     const payload: WorkoutInput = {
       ownerUserId,
