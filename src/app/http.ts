@@ -26,10 +26,7 @@ const createHttpApp = (container: AppContainer) => {
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
   app.get("/", (req, res) => {
-    res.status(httpStatus.ok).json({
-      name: packageJson.name,
-      version: packageJson.version,
-    });
+    res.redirect(httpStatus.found, "/docs");
   });
 
   registerRoutes(app, container);
