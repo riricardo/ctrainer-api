@@ -1,5 +1,6 @@
-import mongoose, { Document, Model, Schema, SchemaDefinitionProperty } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 import { WorkoutLogExerciseInput } from "./workout-logs.dtos";
+import { BaseDocument, mixedArrayField } from "../../shared/types/mongoose";
 
 export type WorkoutLogFields = {
   ownerUserId: string;
@@ -11,14 +12,7 @@ export type WorkoutLogFields = {
   exercises?: WorkoutLogExerciseInput[];
 };
 
-export type WorkoutLogDocument = WorkoutLogFields &
-  Document & {
-    createdAt: Date;
-    updatedAt: Date;
-    __v?: number;
-  };
-
-const mixedArray = [Schema.Types.Mixed] as Array<typeof Schema.Types.Mixed>;
+export type WorkoutLogDocument = WorkoutLogFields & BaseDocument;
 
 const workoutLogSchema = new Schema<WorkoutLogDocument>(
   {
@@ -28,10 +22,7 @@ const workoutLogSchema = new Schema<WorkoutLogDocument>(
     endedAt: { type: Date },
     durationSeconds: { type: Number },
     notes: { type: String, trim: true, default: "" },
-    exercises: ({ type: mixedArray, default: [] } as unknown) as SchemaDefinitionProperty<
-      WorkoutLogExerciseInput[],
-      WorkoutLogDocument
-    >,
+    exercises: mixedArrayField<WorkoutLogExerciseInput, WorkoutLogDocument>(),
   },
   {
     timestamps: true,
