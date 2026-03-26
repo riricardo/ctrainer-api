@@ -1,17 +1,53 @@
 import mongoose from "mongoose";
 import env from "../../config/env";
+import logger from "../../config/logger";
+
+let connectionPromise: Promise<void> | null = null;
+
+const isDbConnected = () => mongoose.connection.readyState === 1;
 
 const connectDb = async () => {
-  if (!env.mongoUri) {
-    throw new Error("MONGO_URI is not set");
-  }
+  if (isDbConnected()) return;
 
-  const options: { dbName?: string } = {};
-  if (env.mongoDbName) {
-    options.dbName = env.mongoDbName;
-  }
+  if (connectionPromise) return connectionPromise;
 
-  await mongoose.connect(env.mongoUri, options);
+  if (!env.mongoUri) throw new Error("MONGO_URI is not set");
+
+  connectionPromise = mongoose
+    .connect(env.mongoUri, {
+      dbName: env.mongoDbName,
+    })
+    .then(() => undefined)
+    .finally(() => {
+      connectionPromise = null;
+    });
+
+  return connectionPromise;
+};
+
+const triggerDbConnect = async () => {
+  try {
+    if (isDbConnected()) return;
+    await connectDb();
+    logger.info("Database connected");
+  } catch (err) {
+    logger.error("Database connection attempt failed:", err);
+  }
+};
+
+const isDbConnectionError = (err: unknown) => {
+  if (mongoose.connection.readyState === 1) return false;
+
+  const error = err as { name?: string; message?: string };
+  const message = error.message?.toLowerCase() || "";
+
+  return (
+    error.name === "MongooseServerSelectionError" ||
+    error.name === "MongoServerSelectionError" ||
+    message.includes("buffering timed out") ||
+    message.includes("topology is closed") ||
+    message.includes("client must be connected")
+  );
 };
 
 const getDbHealth = () => {
@@ -22,13 +58,12 @@ const getDbHealth = () => {
     "connecting",
     "disconnecting",
   ];
-  const isDbUp = state === 1;
 
   return {
-    isDbUp,
+    isDbUp: isDbConnected(),
     state,
     stateLabel: stateLabels[state] || "unknown",
   };
 };
 
-export { connectDb, getDbHealth };
+export { triggerDbConnect, isDbConnectionError, getDbHealth };

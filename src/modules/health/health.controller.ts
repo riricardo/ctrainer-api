@@ -1,16 +1,15 @@
 import { Request, Response } from "express";
-import { getDbHealth } from "../../infrastructure/db/mongoose";
-import httpStatus from "../../shared/http/http-status";
-
+import {
+  triggerDbConnect,
+  getDbHealth,
+} from "../../infrastructure/db/mongoose";
 const buildHealthController = () => ({
-  health: (req: Request, res: Response) => {
+  health: async (req: Request, res: Response) => {
+    await triggerDbConnect();
+
     const db = getDbHealth();
-    const isHealthOk = db.isDbUp;
 
-    const status = isHealthOk ? "ok" : "degraded";
-    const code = isHealthOk ? httpStatus.ok : httpStatus.serviceUnavailable;
-
-    res.status(code).json({ status, db });
+    res.json({ db });
   },
 });
 
