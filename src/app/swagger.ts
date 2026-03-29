@@ -101,7 +101,7 @@ const swaggerSpec = swaggerJSDoc({
       },
     },
   },
-  apis: ["src/**/*.ts"],
+  apis: ["src/**/*.routes.ts", "src/**/*.openapi.ts"],
 });
 
 export default swaggerSpec;
