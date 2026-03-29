@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import AppError from "../shared/errors/AppError";
-import httpStatus from "../shared/http/http-status";
 
 const requireAuth =
   (authProvider: {
@@ -12,11 +11,7 @@ const requireAuth =
     const [, token] = header.split(" ");
 
     if (!token) {
-      throw new AppError(
-        "Missing auth token",
-        httpStatus.unauthorized,
-        "auth_required"
-      );
+      throw AppError.authRequired();
     }
 
     const decoded = await authProvider.verifyIdToken(token);
@@ -24,10 +19,10 @@ const requireAuth =
 
     return next();
   } catch (err: unknown) {
-    const error = err as { status?: number; code?: string };
-    const status = error.status || httpStatus.unauthorized;
-    const code = error.code || "invalid_token";
-    return next(new AppError("Invalid auth token", status, code));
+    if (err instanceof AppError)
+      return next(err);
+
+    return next(AppError.invalidToken());
   }
 };
 

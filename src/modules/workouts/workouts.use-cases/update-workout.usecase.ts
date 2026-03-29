@@ -1,5 +1,4 @@
 import AppError from "../../../shared/errors/AppError";
-import httpStatus from "../../../shared/http/http-status";
 import {
   WorkoutUpdate,
   WorkoutsRepository,
@@ -18,15 +17,11 @@ const updateWorkoutUseCase =
   }) => {
     const workout = await workoutsRepository.findById(id);
     if (!workout) {
-      throw new AppError(
-        "Workout not found",
-        httpStatus.notFound,
-        "workout_not_found"
-      );
+      throw AppError.workoutNotFound();
     }
 
     if (workout.ownerUserId !== ownerUserId) {
-      throw new AppError("Forbidden", httpStatus.forbidden, "forbidden");
+      throw AppError.forbidden();
     }
 
     return workoutsRepository.updateById(id, updates);

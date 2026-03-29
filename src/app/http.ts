@@ -6,7 +6,6 @@ import requestId from "../middleware/requestId";
 import errorHandler from "../middleware/errorHandler";
 import registerRoutes from "./routes";
 import httpStatus from "../shared/http/http-status";
-import packageJson from "../../package.json";
 import { AppContainer } from "../shared/types/container";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./swagger";
