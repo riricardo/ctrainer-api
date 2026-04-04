@@ -2,19 +2,21 @@ import AppError from "../../../shared/errors/AppError";
 import {
   WorkoutUpdate,
   WorkoutsRepository,
-} from "../workouts.repositories/workouts.repository";
+} from "../repositories/workouts.repository";
+
+type UpdateWorkoutUseCaseDependencies = {
+  workoutsRepository: WorkoutsRepository;
+};
+
+type UpdateWorkoutUseCaseInput = {
+  id: string;
+  ownerUserId: string;
+  updates: WorkoutUpdate;
+};
 
 const updateWorkoutUseCase =
-  ({ workoutsRepository }: { workoutsRepository: WorkoutsRepository }) =>
-  async ({
-    id,
-    ownerUserId,
-    updates,
-  }: {
-    id: string;
-    ownerUserId: string;
-    updates: WorkoutUpdate;
-  }) => {
+  ({ workoutsRepository }: UpdateWorkoutUseCaseDependencies) =>
+  async ({ id, ownerUserId, updates }: UpdateWorkoutUseCaseInput) => {
     const workout = await workoutsRepository.findById(id);
     if (!workout) {
       throw AppError.workoutNotFound();

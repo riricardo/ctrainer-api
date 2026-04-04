@@ -1,4 +1,4 @@
-import { WorkoutModel, WorkoutDocument } from "../workouts.model";
+import { WorkoutModel } from "../workouts.model";
 import {
   WorkoutInput,
   WorkoutUpdate,

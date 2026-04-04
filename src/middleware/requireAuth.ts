@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from "express";
+import { AuthProvider } from "../modules/auth/auth.types";
 import AppError from "../shared/errors/AppError";
 
 const requireAuth =
-  (authProvider: {
-    verifyIdToken: (token: string) => Promise<{ uid: string } & Record<string, unknown>>;
-  }) =>
+  (authProvider: AuthProvider) =>
   async (req: Request, res: Response, next: NextFunction) => {
   try {
     const header = req.headers.authorization || "";

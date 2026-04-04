@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import asyncHandler from "../../shared/utils/asyncHandler";
 import httpStatus from "../../shared/http/http-status";
-import createWorkoutLogUseCase from "./workout-logs.use-cases/create-workout-log.usecase";
-import listMyWorkoutLogsUseCase from "./workout-logs.use-cases/list-my-workout-logs.usecase";
+import createWorkoutLogUseCase from "./use-cases/create-workout-log.usecase";
+import listMyWorkoutLogsUseCase from "./use-cases/list-my-workout-logs.usecase";
 import { AppContainer } from "../../shared/types/container";
 import { CreateWorkoutLogRequestBody } from "./workout-logs.dtos";
-import { mapWorkoutLog } from "./workout-logs.mappers/workout-log.mapper";
+import { mapWorkoutLog } from "./workout-logs.mapper";
 
 const buildWorkoutLogsController = (container: AppContainer) => {
   const { workoutLogsRepository } = container;
@@ -32,9 +32,7 @@ const buildWorkoutLogsController = (container: AppContainer) => {
     }),
     listMy: asyncHandler(async (req: Request, res: Response) => {
       const logs = await listMyWorkoutLogs({ ownerUserId: req.auth!.uid });
-      res
-        .status(httpStatus.ok)
-        .json({ data: logs.map(mapWorkoutLog) });
+      res.status(httpStatus.ok).json({ data: logs.map(mapWorkoutLog) });
     }),
   };
 };

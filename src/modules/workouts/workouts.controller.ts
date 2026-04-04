@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import asyncHandler from "../../shared/utils/asyncHandler";
-import { mapWorkout } from "./workouts.mappers/workout.mapper";
+import { mapWorkout } from "./workouts.mapper";
 import httpStatus from "../../shared/http/http-status";
-import createWorkoutUseCase from "./workouts.use-cases/create-workout.usecase";
-import getWorkoutUseCase from "./workouts.use-cases/get-workout.usecase";
-import updateWorkoutUseCase from "./workouts.use-cases/update-workout.usecase";
-import deleteWorkoutUseCase from "./workouts.use-cases/delete-workout.usecase";
-import listMyWorkoutsUseCase from "./workouts.use-cases/list-my-workouts.usecase";
-import listPublicWorkoutsUseCase from "./workouts.use-cases/list-public-workouts.usecase";
-import copyWorkoutUseCase from "./workouts.use-cases/copy-workout.usecase";
+import createWorkoutUseCase from "./use-cases/create-workout.usecase";
+import getWorkoutUseCase from "./use-cases/get-workout.usecase";
+import updateWorkoutUseCase from "./use-cases/update-workout.usecase";
+import deleteWorkoutUseCase from "./use-cases/delete-workout.usecase";
+import listMyWorkoutsUseCase from "./use-cases/list-my-workouts.usecase";
+import listPublicWorkoutsUseCase from "./use-cases/list-public-workouts.usecase";
+import copyWorkoutUseCase from "./use-cases/copy-workout.usecase";
 import { AppContainer } from "../../shared/types/container";
 import {
   CreateWorkoutRequestBody,

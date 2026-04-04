@@ -1,10 +1,6 @@
-import { createAuthProvider } from "../modules/auth/auth.services/auth.service";
-import {
-  createWorkoutsRepository,
-} from "../modules/workouts/workouts.repositories/mongoose-workouts.repository";
-import {
-  createWorkoutLogsRepository,
-} from "../modules/workout-logs/workout-logs.repositories/mongoose-workout-logs.repository";
+import { createAuthProvider } from "../modules/auth/auth.service";
+import { createWorkoutLogsRepository } from "../modules/workout-logs/repositories/workout-logs.repository.mongoose";
+import { createWorkoutsRepository } from "../modules/workouts/repositories/workouts.repository.mongoose";
 import { AppContainer } from "../shared/types/container";
 
 const buildContainer = (): AppContainer => {
