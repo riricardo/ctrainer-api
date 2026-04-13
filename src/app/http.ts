@@ -16,16 +16,37 @@ const createHttpApp = (container: AppContainer) => {
   app.use(helmet());
   app.use(
     cors({
-      origin: env.corsOrigin,
+      origin: (origin, callback) => {
+        const isCallWithNoOrigin = !origin;
+
+        const isAllowAnyOrigin = env.corsOrigins.includes("*");
+
+        const isOriginInTheList = env.corsOrigins.includes(origin ?? "");
+
+        if (isCallWithNoOrigin || isAllowAnyOrigin || isOriginInTheList) {
+          callback(null, true);
+          return;
+        }
+
+        callback(new Error("Not allowed by CORS"));
+      },
     })
   );
-  app.use(express.json());
+  app.use(express.json({ limit: env.bodySizeLimit }));
+  app.use(express.urlencoded({ extended: false, limit: env.bodySizeLimit }));
   app.use(requestId);
 
-  app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  if (env.docsEnabled) {
+    app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  }
 
   app.get("/", (req, res) => {
-    res.redirect(httpStatus.found, "/docs");
+    if (env.docsEnabled) {
+      res.redirect(httpStatus.found, "/docs");
+      return;
+    }
+
+    res.status(httpStatus.noContent);
   });
 
   registerRoutes(app, container);

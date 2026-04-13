@@ -4,6 +4,9 @@ import {
   WorkoutUpdate,
   WorkoutsRepository,
 } from "./workouts.repository";
+import escapeRegExp from "../../../shared/utils/escapeRegExp";
+
+const MAX_PUBLIC_SEARCH_LENGTH = 100;
 
 const createWorkoutsRepository = (): WorkoutsRepository => ({
   create: (data: WorkoutInput) => WorkoutModel.create(data),
@@ -19,7 +22,10 @@ const createWorkoutsRepository = (): WorkoutsRepository => ({
   listPublic: (search?: string) => {
     const query: Record<string, unknown> = { isPublic: true };
     if (search) {
-      const regex = new RegExp(search, "i");
+      const sanitizedSearch = escapeRegExp(
+        search.trim().slice(0, MAX_PUBLIC_SEARCH_LENGTH)
+      );
+      const regex = new RegExp(sanitizedSearch, "i");
       query.$or = [{ title: regex }, { description: regex }];
     }
 

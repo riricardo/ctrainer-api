@@ -7,7 +7,12 @@ const requireAuth =
   async (req: Request, res: Response, next: NextFunction) => {
   try {
     const header = req.headers.authorization || "";
-    const [, token] = header.split(" ");
+
+    if (!header.toLowerCase().startsWith("bearer ")) {
+      throw AppError.authRequired();
+    }
+
+    const token = header.slice(7).trim();
 
     if (!token) {
       throw AppError.authRequired();

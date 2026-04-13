@@ -7,56 +7,58 @@ import {
 import AppError from "../shared/errors/AppError";
 import httpStatus from "../shared/http/http-status";
 
-type UnknownError = {
-  status?: number;
-  code?: string;
-  details?: unknown;
-  message?: string;
-};
-
 type ErrorResponse = {
   status: number;
   message: string;
   code?: string;
   details?: unknown;
-  shouldReconnectDb: boolean;
 };
 
-const buildErrorResponse = (err: unknown): ErrorResponse => {
-  const isAppError = err instanceof AppError;
-  const shouldReconnectDb = !isAppError && isDbConnectionError(err);
+const isAppError = (err: unknown): err is AppError => err instanceof AppError;
 
-  if (shouldReconnectDb) {
+const shouldTriggerDbReconnect = (err: unknown) =>
+  !isAppError(err) && isDbConnectionError(err);
+
+const buildErrorResponse = (err: unknown): ErrorResponse => {
+  if (shouldTriggerDbReconnect(err)) {
     return {
       status: httpStatus.serviceUnavailable,
       message: "Database unavailable",
       code: "database_unavailable",
-      shouldReconnectDb: true,
     };
-  }  
-  
-  const error = err as UnknownError;
+  }
+
+  if (!isAppError(err)) {
+    return {
+      status: httpStatus.internalServerError,
+      message: "Unexpected error",
+      code: "internal_error",
+    };
+  }
 
   return {
-    status: error.status || httpStatus.internalServerError,
-    message: error.message || "Unexpected error",
-    code: error.code,
-    details: error.details,
-    shouldReconnectDb,
+    status: err.status,
+    message: err.message,
+    code: err.code,
+    details: err.details,
   };
 };
 
 const errorHandler = (
   err: unknown,
-  req: Request,
+  _req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const response = buildErrorResponse(err);
 
-  if (response.shouldReconnectDb) {
+  if (shouldTriggerDbReconnect(err)) {
     logger.error("Database request failed. Triggering reconnect.", err);
     triggerDbConnect();
+  }
+
+  if (response.status >= httpStatus.internalServerError) {
+    logger.error("Unhandled request error", err);
   }
 
   const errorPayload = {
