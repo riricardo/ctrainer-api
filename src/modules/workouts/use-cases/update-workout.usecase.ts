@@ -26,7 +26,12 @@ const updateWorkoutUseCase =
       throw AppError.forbidden();
     }
 
-    return workoutsRepository.updateById(id, updates);
+    const updatedWorkout = await workoutsRepository.updateById(id, updates);
+    if (!updatedWorkout) {
+      throw AppError.workoutNotFound();
+    }
+
+    return updatedWorkout;
   };
 
 export default updateWorkoutUseCase;

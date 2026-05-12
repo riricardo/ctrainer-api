@@ -1,5 +1,4 @@
 import AppError from "../../../shared/errors/AppError";
-import { WorkoutDocument } from "../workouts.model";
 import {
   WorkoutInput,
   WorkoutsRepository,
@@ -26,8 +25,7 @@ const copyWorkoutUseCase =
       throw AppError.forbidden();
     }
 
-    const copyData = (workout.toObject ? workout.toObject() : workout) as WorkoutDocument;
-    const { title, description, exercises } = copyData;
+    const { title, description, exercises } = workout;
 
     const payload: WorkoutInput = {
       ownerUserId,
