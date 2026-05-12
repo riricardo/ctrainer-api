@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import env from "../config/env";
+import env, { AppEnv } from "../config/env";
 import requestId from "../middleware/requestId";
 import errorHandler from "../middleware/errorHandler";
 import registerRoutes from "./routes";
@@ -10,20 +10,33 @@ import { AppContainer } from "../shared/types/container";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./swagger";
 
-const createHttpApp = (container: AppContainer) => {
+const isOriginAllowed = (origin: string | undefined, corsOrigins: string[]) => {
+  const isCallWithNoOrigin = !origin;
+  const isAllowAnyOrigin = corsOrigins.includes("*");
+  const isOriginInTheList = corsOrigins.includes(origin ?? "");
+
+  return isCallWithNoOrigin || isAllowAnyOrigin || isOriginInTheList;
+};
+
+const buildRootHandler =
+  (appEnv: AppEnv) => (_req: express.Request, res: express.Response) => {
+    if (appEnv.docsEnabled) {
+      res.redirect(httpStatus.found, "/docs");
+      return;
+    }
+
+    res.sendStatus(httpStatus.noContent);
+  };
+
+const createHttpApp = (container: AppContainer, deps: { env?: AppEnv } = {}) => {
+  const appEnv = deps.env ?? env;
   const app = express();
 
   app.use(helmet());
   app.use(
     cors({
       origin: (origin, callback) => {
-        const isCallWithNoOrigin = !origin;
-
-        const isAllowAnyOrigin = env.corsOrigins.includes("*");
-
-        const isOriginInTheList = env.corsOrigins.includes(origin ?? "");
-
-        if (isCallWithNoOrigin || isAllowAnyOrigin || isOriginInTheList) {
+        if (isOriginAllowed(origin, appEnv.corsOrigins)) {
           callback(null, true);
           return;
         }
@@ -32,22 +45,15 @@ const createHttpApp = (container: AppContainer) => {
       },
     })
   );
-  app.use(express.json({ limit: env.bodySizeLimit }));
-  app.use(express.urlencoded({ extended: false, limit: env.bodySizeLimit }));
+  app.use(express.json({ limit: appEnv.bodySizeLimit }));
+  app.use(express.urlencoded({ extended: false, limit: appEnv.bodySizeLimit }));
   app.use(requestId);
 
-  if (env.docsEnabled) {
+  if (appEnv.docsEnabled) {
     app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   }
 
-  app.get("/", (req, res) => {
-    if (env.docsEnabled) {
-      res.redirect(httpStatus.found, "/docs");
-      return;
-    }
-
-    res.status(httpStatus.noContent);
-  });
+  app.get("/", buildRootHandler(appEnv));
 
   registerRoutes(app, container);
 
@@ -60,4 +66,5 @@ const createHttpApp = (container: AppContainer) => {
   return app;
 };
 
+export { buildRootHandler, isOriginAllowed };
 export default createHttpApp;
