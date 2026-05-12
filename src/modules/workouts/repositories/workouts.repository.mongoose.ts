@@ -5,21 +5,34 @@ import {
   WorkoutsRepository,
 } from "./workouts.repository";
 import escapeRegExp from "../../../shared/utils/escapeRegExp";
+import { createEntityMapper } from "../../../shared/utils/mapEntity";
+import { Workout } from "../workouts.types";
 
 const MAX_PUBLIC_SEARCH_LENGTH = 100;
 
+const { toEntity: toWorkout, toEntities: toWorkouts } =
+  createEntityMapper<Workout>();
+
 const createWorkoutsRepository = (): WorkoutsRepository => ({
-  create: (data: WorkoutInput) => WorkoutModel.create(data),
-  findById: (id: string) => WorkoutModel.findById(id).exec(),
+  create: async (data: WorkoutInput) => toWorkout(await WorkoutModel.create(data))!,
+  findById: async (id: string) => toWorkout(await WorkoutModel.findById(id).exec()),
   updateById: (id: string, data: WorkoutUpdate) =>
     WorkoutModel.findByIdAndUpdate(id, data, {
       new: true,
       runValidators: true,
-    }).exec(),
-  deleteById: (id: string) => WorkoutModel.findByIdAndDelete(id).exec(),
+    })
+      .exec()
+      .then((doc) => toWorkout(doc)),
+  deleteById: (id: string) =>
+    WorkoutModel.findByIdAndDelete(id)
+      .exec()
+      .then((doc) => toWorkout(doc)),
   listByOwner: (ownerUserId: string) =>
-    WorkoutModel.find({ ownerUserId }).sort({ createdAt: -1 }).exec(),
-  listPublic: (search?: string) => {
+    WorkoutModel.find({ ownerUserId })
+      .sort({ createdAt: -1 })
+      .exec()
+      .then((docs) => toWorkouts(docs)),
+  listPublic: async (search?: string) => {
     const query: Record<string, unknown> = { isPublic: true };
     if (search) {
       const sanitizedSearch = escapeRegExp(
@@ -29,7 +42,8 @@ const createWorkoutsRepository = (): WorkoutsRepository => ({
       query.$or = [{ title: regex }, { description: regex }];
     }
 
-    return WorkoutModel.find(query).sort({ createdAt: -1 }).exec();
+    const docs = await WorkoutModel.find(query).sort({ createdAt: -1 }).exec();
+    return toWorkouts(docs);
   },
 });
 
