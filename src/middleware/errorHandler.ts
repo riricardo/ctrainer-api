@@ -48,7 +48,7 @@ const errorHandler = (
   err: unknown,
   _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   const response = buildErrorResponse(err);
 
