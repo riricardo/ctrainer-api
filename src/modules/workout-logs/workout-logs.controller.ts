@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import asyncHandler from "../../shared/utils/asyncHandler";
-import httpStatus from "../../shared/http/http-status";
+import { HttpStatus } from "../../shared/http/http-status";
 import createWorkoutLogUseCase from "./use-cases/create-workout-log.usecase";
 import listMyWorkoutLogsUseCase from "./use-cases/list-my-workout-logs.usecase";
 import { AppContainer } from "../../shared/types/container";
@@ -28,11 +28,11 @@ const buildWorkoutLogsController = (container: AppContainer) => {
         exercises: req.body.exercises,
       });
 
-      res.status(httpStatus.created).json({ data: mapWorkoutLog(log) });
+      res.status(HttpStatus.Created).json({ data: mapWorkoutLog(log) });
     }),
     listMy: asyncHandler(async (req: Request, res: Response) => {
       const logs = await listMyWorkoutLogs({ ownerUserId: req.auth!.uid });
-      res.status(httpStatus.ok).json({ data: logs.map(mapWorkoutLog) });
+      res.status(HttpStatus.Ok).json({ data: logs.map(mapWorkoutLog) });
     }),
   };
 };

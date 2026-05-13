@@ -1,10 +1,11 @@
 import AppError from "./AppError";
-import httpStatus from "../http/http-status";
+import { AppErrorCode } from "./error-codes";
+import { HttpStatus } from "../http/http-status";
 
 const domainError = (
   message: string,
-  status = httpStatus.badRequest,
-  code?: string,
+  status: HttpStatus = HttpStatus.BadRequest,
+  code?: AppErrorCode,
   details?: unknown
 ) => new AppError(message, status, code, details);
 

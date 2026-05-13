@@ -5,7 +5,7 @@ import env, { AppEnv } from "../config/env";
 import requestId from "../middleware/requestId";
 import errorHandler from "../middleware/errorHandler";
 import registerRoutes from "./routes";
-import httpStatus from "../shared/http/http-status";
+import { HttpStatus } from "../shared/http/http-status";
 import { AppContainer } from "../shared/types/container";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./swagger";
@@ -21,11 +21,11 @@ const isOriginAllowed = (origin: string | undefined, corsOrigins: string[]) => {
 const buildRootHandler =
   (appEnv: AppEnv) => (_req: express.Request, res: express.Response) => {
     if (appEnv.docsEnabled) {
-      res.redirect(httpStatus.found, "/docs");
+      res.redirect(HttpStatus.Found, "/docs");
       return;
     }
 
-    res.sendStatus(httpStatus.noContent);
+    res.sendStatus(HttpStatus.NoContent);
   };
 
 const createHttpApp = (container: AppContainer, deps: { env?: AppEnv } = {}) => {
@@ -58,7 +58,7 @@ const createHttpApp = (container: AppContainer, deps: { env?: AppEnv } = {}) => 
   registerRoutes(app, container);
 
   app.use((req, res) => {
-    res.status(httpStatus.notFound).json({ error: { message: "Not found" } });
+    res.status(HttpStatus.NotFound).json({ error: { message: "Not found" } });
   });
 
   app.use(errorHandler);

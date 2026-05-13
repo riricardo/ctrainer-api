@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import asyncHandler from "../../shared/utils/asyncHandler";
 import { mapWorkout } from "./workouts.mapper";
-import httpStatus from "../../shared/http/http-status";
+import { HttpStatus } from "../../shared/http/http-status";
 import createWorkoutUseCase from "./use-cases/create-workout.usecase";
 import getWorkoutUseCase from "./use-cases/get-workout.usecase";
 import updateWorkoutUseCase from "./use-cases/update-workout.usecase";
@@ -40,7 +40,7 @@ const buildWorkoutsController = (container: AppContainer) => {
         exercises: req.body.exercises,
       });
 
-      res.status(httpStatus.created).json({ data: mapWorkout(workout) });
+      res.status(HttpStatus.Created).json({ data: mapWorkout(workout) });
     }),
     getById: asyncHandler(
       async (req: Request<{ id: string }>, res: Response) => {
@@ -49,7 +49,7 @@ const buildWorkoutsController = (container: AppContainer) => {
         ownerUserId: req.auth!.uid,
       });
 
-      res.status(httpStatus.ok).json({ data: mapWorkout(workout) });
+      res.status(HttpStatus.Ok).json({ data: mapWorkout(workout) });
     }),
     updateById: asyncHandler(
       async (
@@ -67,7 +67,7 @@ const buildWorkoutsController = (container: AppContainer) => {
         },
       });
 
-      res.status(httpStatus.ok).json({ data: mapWorkout(workout) });
+      res.status(HttpStatus.Ok).json({ data: mapWorkout(workout) });
     }),
     deleteById: asyncHandler(
       async (req: Request<{ id: string }>, res: Response) => {
@@ -76,11 +76,11 @@ const buildWorkoutsController = (container: AppContainer) => {
         ownerUserId: req.auth!.uid,
       });
 
-      res.status(httpStatus.noContent).send();
+      res.status(HttpStatus.NoContent).send();
     }),
     listMy: asyncHandler(async (req: Request, res: Response) => {
       const workouts = await listMyWorkouts({ ownerUserId: req.auth!.uid });
-      res.status(httpStatus.ok).json({ data: workouts.map(mapWorkout) });
+      res.status(HttpStatus.Ok).json({ data: workouts.map(mapWorkout) });
     }),
     listPublic: asyncHandler(
       async (
@@ -90,7 +90,7 @@ const buildWorkoutsController = (container: AppContainer) => {
       const search =
         typeof req.query.search === "string" ? req.query.search : undefined;
       const workouts = await listPublicWorkouts({ search });
-      res.status(httpStatus.ok).json({ data: workouts.map(mapWorkout) });
+      res.status(HttpStatus.Ok).json({ data: workouts.map(mapWorkout) });
     }),
     copy: asyncHandler(
       async (req: Request<{ id: string }>, res: Response) => {
@@ -99,7 +99,7 @@ const buildWorkoutsController = (container: AppContainer) => {
         ownerUserId: req.auth!.uid,
       });
 
-      res.status(httpStatus.created).json({ data: mapWorkout(workout) });
+      res.status(HttpStatus.Created).json({ data: mapWorkout(workout) });
     }),
   };
 };

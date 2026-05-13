@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import AppError from "../shared/errors/AppError";
-import httpStatus from "../shared/http/http-status";
+import { AppErrorCode } from "../shared/errors/error-codes";
+import { HttpStatus } from "../shared/http/http-status";
 
 type ValidationResult = {
   error?: {
@@ -32,8 +33,8 @@ const validate =
   return next(
     new AppError(
       "Validation failed",
-      httpStatus.badRequest,
-      "validation_failed",
+      HttpStatus.BadRequest,
+      AppErrorCode.ValidationFailed,
       details
     )
   );

@@ -1,15 +1,17 @@
-const httpStatus = {
-  ok: 200,
-  created: 201,
-  noContent: 204,
-  found: 302,
-  badRequest: 400,
-  unauthorized: 401,
-  forbidden: 403,
-  notFound: 404,
-  conflict: 409,
-  internalServerError: 500,
-  serviceUnavailable: 503,
-};
+const HttpStatus = {
+  Ok: 200,
+  Created: 201,
+  NoContent: 204,
+  Found: 302,
+  BadRequest: 400,
+  Unauthorized: 401,
+  Forbidden: 403,
+  NotFound: 404,
+  Conflict: 409,
+  InternalServerError: 500,
+  ServiceUnavailable: 503,
+} as const;
 
-export default httpStatus;
+type HttpStatus = (typeof HttpStatus)[keyof typeof HttpStatus];
+
+export { HttpStatus };

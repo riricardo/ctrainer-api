@@ -5,12 +5,13 @@ import {
   triggerDbConnect,
 } from "../infrastructure/db/mongoose";
 import AppError from "../shared/errors/AppError";
-import httpStatus from "../shared/http/http-status";
+import { AppErrorCode } from "../shared/errors/error-codes";
+import { HttpStatus } from "../shared/http/http-status";
 
 type ErrorResponse = {
-  status: number;
+  status: HttpStatus;
   message: string;
-  code?: string;
+  code?: AppErrorCode;
   details?: unknown;
 };
 
@@ -22,17 +23,17 @@ const shouldTriggerDbReconnect = (err: unknown) =>
 const buildErrorResponse = (err: unknown): ErrorResponse => {
   if (shouldTriggerDbReconnect(err)) {
     return {
-      status: httpStatus.serviceUnavailable,
+      status: HttpStatus.ServiceUnavailable,
       message: "Database unavailable",
-      code: "database_unavailable",
+      code: AppErrorCode.DatabaseUnavailable,
     };
   }
 
   if (!isAppError(err)) {
     return {
-      status: httpStatus.internalServerError,
+      status: HttpStatus.InternalServerError,
       message: "Unexpected error",
-      code: "internal_error",
+      code: AppErrorCode.InternalError,
     };
   }
 
@@ -57,7 +58,7 @@ const errorHandler = (
     triggerDbConnect();
   }
 
-  if (response.status >= httpStatus.internalServerError) {
+  if (response.status >= HttpStatus.InternalServerError) {
     logger.error("Unhandled request error", err);
   }
 

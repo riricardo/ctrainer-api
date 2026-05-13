@@ -1,15 +1,16 @@
-import httpStatus from "../http/http-status";
+import { HttpStatus } from "../http/http-status";
+import { AppErrorCode } from "./error-codes";
 
 class AppError extends Error {
-  status: number;
-  code?: string;
+  status: HttpStatus;
+  code?: AppErrorCode;
   details?: unknown;
 
   static authRequired(details?: unknown) {
     return new AppError(
       "Missing auth token",
-      httpStatus.unauthorized,
-      "auth_required",
+      HttpStatus.Unauthorized,
+      AppErrorCode.AuthRequired,
       details
     );
   }
@@ -17,29 +18,34 @@ class AppError extends Error {
   static invalidToken(details?: unknown) {
     return new AppError(
       "Invalid auth token",
-      httpStatus.unauthorized,
-      "invalid_token",
+      HttpStatus.Unauthorized,
+      AppErrorCode.InvalidToken,
       details
     );
   }
 
   static forbidden(details?: unknown) {
-    return new AppError("Forbidden", httpStatus.forbidden, "forbidden", details);
+    return new AppError(
+      "Forbidden",
+      HttpStatus.Forbidden,
+      AppErrorCode.Forbidden,
+      details
+    );
   }
 
   static workoutNotFound(details?: unknown) {
     return new AppError(
       "Workout not found",
-      httpStatus.notFound,
-      "workout_not_found",
+      HttpStatus.NotFound,
+      AppErrorCode.WorkoutNotFound,
       details
     );
   }
 
   constructor(
     message: string,
-    status = httpStatus.internalServerError,
-    code?: string,
+    status: HttpStatus = HttpStatus.InternalServerError,
+    code?: AppErrorCode,
     details?: unknown
   ) {
     super(message);
