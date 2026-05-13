@@ -25,13 +25,16 @@ const copyWorkoutUseCase =
       throw AppError.forbidden();
     }
 
-    const { title, description, exercises } = workout;
+    const { title, description, difficulty, duration, exercises } = workout;
 
     const payload: WorkoutInput = {
       ownerUserId,
       title,
       description,
+      difficulty,
+      duration,
       isPublic: false,
+      copiedFromWorkoutId: workout.id,
       exercises,
     };
 

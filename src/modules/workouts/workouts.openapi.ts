@@ -23,11 +23,11 @@
  *                   items:
  *                     $ref: "#/components/schemas/Workout"
  *
- * /api/workouts/my:
+ * /api/workouts:
  *   get:
  *     tags:
  *       - Workouts
- *     summary: List my workouts
+ *     summary: List workouts owned by the current user
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -43,7 +43,6 @@
  *                   items:
  *                     $ref: "#/components/schemas/Workout"
  *
- * /api/workouts:
  *   post:
  *     tags:
  *       - Workouts

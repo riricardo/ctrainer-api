@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { WorkoutModel } from "../workouts.model";
 import {
   WorkoutInput,
@@ -13,20 +14,33 @@ const MAX_PUBLIC_SEARCH_LENGTH = 100;
 const { toEntity: toWorkout, toEntities: toWorkouts } =
   createEntityMapper<Workout>();
 
+const isValidMongoId = (id: string) => mongoose.isValidObjectId(id);
+
 const createWorkoutsRepository = (): WorkoutsRepository => ({
   create: async (data: WorkoutInput) => toWorkout(await WorkoutModel.create(data))!,
-  findById: async (id: string) => toWorkout(await WorkoutModel.findById(id).exec()),
-  updateById: (id: string, data: WorkoutUpdate) =>
-    WorkoutModel.findByIdAndUpdate(id, data, {
+  findById: async (id: string) =>
+    isValidMongoId(id) ? toWorkout(await WorkoutModel.findById(id).exec()) : null,
+  updateById: (id: string, data: WorkoutUpdate) => {
+    if (!isValidMongoId(id)) {
+      return Promise.resolve(null);
+    }
+
+    return WorkoutModel.findByIdAndUpdate(id, data, {
       new: true,
       runValidators: true,
     })
       .exec()
-      .then((doc) => toWorkout(doc)),
-  deleteById: (id: string) =>
-    WorkoutModel.findByIdAndDelete(id)
+      .then((doc) => toWorkout(doc));
+  },
+  deleteById: (id: string) => {
+    if (!isValidMongoId(id)) {
+      return Promise.resolve(null);
+    }
+
+    return WorkoutModel.findByIdAndDelete(id)
       .exec()
-      .then((doc) => toWorkout(doc)),
+      .then((doc) => toWorkout(doc));
+  },
   listByOwner: (ownerUserId: string) =>
     WorkoutModel.find({ ownerUserId })
       .sort({ createdAt: -1 })

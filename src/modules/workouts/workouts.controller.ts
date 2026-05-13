@@ -36,6 +36,8 @@ const buildWorkoutsController = (container: AppContainer) => {
         ownerUserId: req.auth!.uid,
         title: req.body.title,
         description: req.body.description,
+        difficulty: req.body.difficulty,
+        duration: req.body.duration,
         isPublic: req.body.isPublic,
         exercises: req.body.exercises,
       });
@@ -62,6 +64,8 @@ const buildWorkoutsController = (container: AppContainer) => {
         updates: {
           title: req.body.title,
           description: req.body.description,
+          difficulty: req.body.difficulty,
+          duration: req.body.duration,
           isPublic: req.body.isPublic,
           exercises: req.body.exercises,
         },

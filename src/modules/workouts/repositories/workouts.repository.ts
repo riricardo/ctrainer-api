@@ -5,7 +5,10 @@ export type WorkoutInput = {
   ownerUserId: string;
   title: string;
   description?: string;
+  difficulty?: string;
+  duration?: number;
   isPublic?: boolean;
+  copiedFromWorkoutId?: string;
   exercises?: WorkoutExerciseInput[];
 };
 

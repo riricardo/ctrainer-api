@@ -22,8 +22,11 @@ const buildWorkoutLogsController = (container: AppContainer) => {
         ownerUserId: req.auth!.uid,
         workoutId: req.body.workoutId,
         startedAt: req.body.startedAt ? new Date(req.body.startedAt) : undefined,
-        endedAt: req.body.endedAt ? new Date(req.body.endedAt) : undefined,
+        completedAt: req.body.completedAt
+          ? new Date(req.body.completedAt)
+          : undefined,
         durationSeconds: req.body.durationSeconds,
+        status: req.body.status,
         notes: req.body.notes,
         exercises: req.body.exercises,
       });

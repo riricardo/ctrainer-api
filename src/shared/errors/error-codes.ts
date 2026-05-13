@@ -5,6 +5,7 @@ const AppErrorCode = {
   InternalError: "internal_error",
   InvalidToken: "invalid_token",
   ValidationFailed: "validation_failed",
+  WorkoutLogNotFound: "workout_log_not_found",
   WorkoutNotFound: "workout_not_found",
 } as const;
 

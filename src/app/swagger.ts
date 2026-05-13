@@ -1,5 +1,6 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import packageJson from "../../package.json";
+import { WorkoutLogStatus } from "../modules/workout-logs/workout-logs.constants";
 
 const swaggerSpec = swaggerJSDoc({
   definition: {
@@ -19,16 +20,30 @@ const swaggerSpec = swaggerJSDoc({
       schemas: {
         WorkoutExerciseInput: {
           type: "object",
-          additionalProperties: true,
+          required: ["name"],
+          properties: {
+            name: { type: "string" },
+            sets: { type: "number" },
+            reps: { type: "number" },
+            weight: { type: "number" },
+            restSeconds: { type: "number" },
+            notes: { type: "string" },
+            imageUrl: { type: "string" },
+            longDescription: { type: "string" },
+          },
         },
         Workout: {
           type: "object",
           properties: {
             id: { type: "string" },
             ownerUserId: { type: "string" },
+            createdBy: { type: "string" },
             title: { type: "string" },
             description: { type: "string" },
+            difficulty: { type: "string" },
+            duration: { type: "number" },
             isPublic: { type: "boolean" },
+            copiedFromWorkoutId: { type: "string" },
             exercises: {
               type: "array",
               items: { $ref: "#/components/schemas/WorkoutExerciseInput" },
@@ -43,6 +58,8 @@ const swaggerSpec = swaggerJSDoc({
           properties: {
             title: { type: "string" },
             description: { type: "string" },
+            difficulty: { type: "string" },
+            duration: { type: "number" },
             isPublic: { type: "boolean" },
             exercises: {
               type: "array",
@@ -55,6 +72,8 @@ const swaggerSpec = swaggerJSDoc({
           properties: {
             title: { type: "string" },
             description: { type: "string" },
+            difficulty: { type: "string" },
+            duration: { type: "number" },
             isPublic: { type: "boolean" },
             exercises: {
               type: "array",
@@ -64,17 +83,32 @@ const swaggerSpec = swaggerJSDoc({
         },
         WorkoutLogExerciseInput: {
           type: "object",
-          additionalProperties: true,
+          required: ["name"],
+          properties: {
+            name: { type: "string" },
+            sets: { type: "number" },
+            reps: { type: "number" },
+            weight: { type: "number" },
+            restSeconds: { type: "number" },
+            notes: { type: "string" },
+            imageUrl: { type: "string" },
+            longDescription: { type: "string" },
+          },
         },
         WorkoutLog: {
           type: "object",
           properties: {
             id: { type: "string" },
             ownerUserId: { type: "string" },
+            createdBy: { type: "string" },
             workoutId: { type: "string" },
             startedAt: { type: "string" },
-            endedAt: { type: "string" },
+            completedAt: { type: "string" },
             durationSeconds: { type: "number" },
+            status: {
+              type: "string",
+              enum: Object.values(WorkoutLogStatus),
+            },
             notes: { type: "string" },
             exercises: {
               type: "array",
@@ -89,8 +123,12 @@ const swaggerSpec = swaggerJSDoc({
           properties: {
             workoutId: { type: "string" },
             startedAt: { type: "string" },
-            endedAt: { type: "string" },
+            completedAt: { type: "string" },
             durationSeconds: { type: "number" },
+            status: {
+              type: "string",
+              enum: Object.values(WorkoutLogStatus),
+            },
             notes: { type: "string" },
             exercises: {
               type: "array",
