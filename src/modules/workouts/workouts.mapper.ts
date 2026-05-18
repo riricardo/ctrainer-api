@@ -1,5 +1,5 @@
-import { WorkoutResponse } from "./workouts.dtos";
-import { Workout } from "./workouts.types";
+import { WorkoutResponse } from "modules/workouts/workouts.dtos";
+import { Workout } from "modules/workouts/workouts.types";
 
 const mapWorkout = (workout: Workout | null): WorkoutResponse | null => {
   if (!workout) {

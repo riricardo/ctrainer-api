@@ -1,4 +1,4 @@
-import { WorkoutExerciseInput } from "./workouts.dtos";
+import { WorkoutExerciseInput } from "modules/workouts/workouts.dtos";
 
 export type Workout = {
   id: string;

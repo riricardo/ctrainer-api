@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { after, before, beforeEach, describe, it } from "node:test";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { WorkoutModel } from "../src/modules/workouts/workouts.model";
+import { WorkoutModel } from "modules/workouts/workouts.model";
 
 let mongoServer: MongoMemoryServer;
 

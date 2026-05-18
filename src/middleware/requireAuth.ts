@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { AuthProvider } from "../modules/auth/auth.types";
-import AppError from "../shared/errors/AppError";
+import { AuthProvider } from "modules/auth/auth.types";
+import AppError from "shared/errors/AppError";
 
 const requireAuth =
   (authProvider: AuthProvider) =>

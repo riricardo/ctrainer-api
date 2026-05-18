@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import env from "../../config/env";
-import logger from "../../config/logger";
+import env from "config/env";
+import logger from "config/logger";
 
 let connectionPromise: Promise<void> | null = null;
 

@@ -1,5 +1,5 @@
-import { HttpStatus } from "../http/http-status";
-import { AppErrorCode } from "./error-codes";
+import { HttpStatus } from "shared/http/http-status";
+import { AppErrorCode } from "shared/errors/error-codes";
 
 class AppError extends Error {
   status: HttpStatus;

@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import requireAuth from "../src/middleware/requireAuth";
-import AppError from "../src/shared/errors/AppError";
-import { AppErrorCode } from "../src/shared/errors/error-codes";
-import { AuthProvider } from "../src/modules/auth/auth.types";
+import requireAuth from "middleware/requireAuth";
+import AppError from "shared/errors/AppError";
+import { AppErrorCode } from "shared/errors/error-codes";
+import { AuthProvider } from "modules/auth/auth.types";
 
 type MockRequest = {
   headers: Record<string, string | undefined>;

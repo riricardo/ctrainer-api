@@ -1,4 +1,4 @@
-import { WorkoutsRepository } from "../repositories/workouts.repository";
+import { WorkoutsRepository } from "modules/workouts/repositories/workouts.repository";
 
 type ListMyWorkoutsUseCaseDependencies = {
   workoutsRepository: WorkoutsRepository;

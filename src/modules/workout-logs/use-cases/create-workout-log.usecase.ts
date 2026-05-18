@@ -1,7 +1,7 @@
 import {
   WorkoutLogInput,
   WorkoutLogsRepository,
-} from "../repositories/workout-logs.repository";
+} from "modules/workout-logs/repositories/workout-logs.repository";
 
 type CreateWorkoutLogUseCaseDependencies = {
   workoutLogsRepository: WorkoutLogsRepository;

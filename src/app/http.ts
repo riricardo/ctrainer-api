@@ -1,14 +1,14 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import env, { AppEnv } from "../config/env";
-import requestId from "../middleware/requestId";
-import errorHandler from "../middleware/errorHandler";
-import registerRoutes from "./routes";
-import { HttpStatus } from "../shared/http/http-status";
-import { AppContainer } from "../shared/types/container";
+import env, { AppEnv } from "config/env";
+import requestId from "middleware/requestId";
+import errorHandler from "middleware/errorHandler";
+import registerRoutes from "app/routes";
+import { HttpStatus } from "shared/http/http-status";
+import { AppContainer } from "shared/types/container";
 import swaggerUi from "swagger-ui-express";
-import swaggerSpec from "./swagger";
+import swaggerSpec from "app/swagger";
 
 const isOriginAllowed = (origin: string | undefined, corsOrigins: string[]) => {
   const isCallWithNoOrigin = !origin;

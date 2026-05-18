@@ -1,6 +1,6 @@
-import mapDocument from "../../shared/utils/mapDocument";
-import { WorkoutLogResponse } from "./workout-logs.dtos";
-import { WorkoutLogDocument } from "./workout-logs.model";
+import mapDocument from "shared/utils/mapDocument";
+import { WorkoutLogResponse } from "modules/workout-logs/workout-logs.dtos";
+import { WorkoutLogDocument } from "modules/workout-logs/workout-logs.model";
 
 const mapWorkoutLog = (log: WorkoutLogDocument | null): WorkoutLogResponse | null => {
   const mapped = mapDocument<WorkoutLogResponse>(log);

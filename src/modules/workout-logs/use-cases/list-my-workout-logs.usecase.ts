@@ -1,4 +1,4 @@
-import { WorkoutLogsRepository } from "../repositories/workout-logs.repository";
+import { WorkoutLogsRepository } from "modules/workout-logs/repositories/workout-logs.repository";
 
 type ListMyWorkoutLogsUseCaseDependencies = {
   workoutLogsRepository: WorkoutLogsRepository;

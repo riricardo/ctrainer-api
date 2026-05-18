@@ -1,7 +1,7 @@
-import app from "./app";
-import env from "./config/env";
-import logger from "./config/logger";
-import { triggerDbConnect } from "./infrastructure/db/mongoose";
+import app from "app";
+import env from "config/env";
+import logger from "config/logger";
+import { triggerDbConnect } from "infrastructure/db/mongoose";
 
 const start = async () => {
   app.listen(env.port, () => {

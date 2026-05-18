@@ -1,6 +1,6 @@
 import swaggerJSDoc from "swagger-jsdoc";
-import packageJson from "../../package.json";
-import { WorkoutLogStatus } from "../modules/workout-logs/workout-logs.constants";
+import packageJson from "package.json";
+import { WorkoutLogStatus } from "modules/workout-logs/workout-logs.constants";
 
 const swaggerSpec = swaggerJSDoc({
   definition: {

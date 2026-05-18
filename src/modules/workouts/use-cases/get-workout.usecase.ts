@@ -1,5 +1,5 @@
-import AppError from "../../../shared/errors/AppError";
-import { WorkoutsRepository } from "../repositories/workouts.repository";
+import AppError from "shared/errors/AppError";
+import { WorkoutsRepository } from "modules/workouts/repositories/workouts.repository";
 
 type GetWorkoutUseCaseDependencies = {
   workoutsRepository: WorkoutsRepository;

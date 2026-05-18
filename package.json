@@ -16,9 +16,9 @@
   "main": "dist/server.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/server.js",
-    "dev": "nodemon --watch src --ext ts --exec tsx src/server.ts",
-    "test": "node --test --import tsx test/**/*.test.ts"
+    "start": "NODE_PATH=dist:. node dist/server.js",
+    "dev": "NODE_PATH=src:. nodemon --watch src --ext ts --exec tsx src/server.ts",
+    "test": "NODE_PATH=src:. node --test --import tsx test/**/*.test.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",

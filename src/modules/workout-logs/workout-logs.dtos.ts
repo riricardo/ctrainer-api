@@ -1,4 +1,4 @@
-import { WorkoutLogStatus } from "./workout-logs.constants";
+import { WorkoutLogStatus } from "modules/workout-logs/workout-logs.constants";
 
 export type WorkoutLogExerciseInput = {
   name: string;

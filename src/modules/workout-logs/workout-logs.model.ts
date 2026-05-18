@@ -1,7 +1,7 @@
 import mongoose, { Model, Schema } from "mongoose";
-import { WorkoutLogExerciseInput } from "./workout-logs.dtos";
-import { WorkoutLogStatus } from "./workout-logs.constants";
-import { BaseDocument } from "../../shared/types/mongoose";
+import { WorkoutLogExerciseInput } from "modules/workout-logs/workout-logs.dtos";
+import { WorkoutLogStatus } from "modules/workout-logs/workout-logs.constants";
+import { BaseDocument } from "shared/types/mongoose";
 
 export type WorkoutLogFields = {
   ownerUserId: string;

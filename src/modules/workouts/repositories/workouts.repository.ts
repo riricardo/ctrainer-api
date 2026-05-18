@@ -1,5 +1,5 @@
-import { WorkoutExerciseInput } from "../workouts.dtos";
-import { Workout } from "../workouts.types";
+import { WorkoutExerciseInput } from "modules/workouts/workouts.dtos";
+import { Workout } from "modules/workouts/workouts.types";
 
 export type WorkoutInput = {
   ownerUserId: string;

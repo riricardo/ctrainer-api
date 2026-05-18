@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
-import { WorkoutModel } from "../workouts.model";
+import { WorkoutModel } from "modules/workouts/workouts.model";
 import {
   WorkoutInput,
   WorkoutUpdate,
   WorkoutsRepository,
-} from "./workouts.repository";
-import escapeRegExp from "../../../shared/utils/escapeRegExp";
-import { createEntityMapper } from "../../../shared/utils/mapEntity";
-import { Workout } from "../workouts.types";
+} from "modules/workouts/repositories/workouts.repository";
+import escapeRegExp from "shared/utils/escapeRegExp";
+import { createEntityMapper } from "shared/utils/mapEntity";
+import { Workout } from "modules/workouts/workouts.types";
 
 const MAX_PUBLIC_SEARCH_LENGTH = 100;
 

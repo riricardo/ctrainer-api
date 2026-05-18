@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import AppError from "../shared/errors/AppError";
-import { AppErrorCode } from "../shared/errors/error-codes";
-import { HttpStatus } from "../shared/http/http-status";
+import AppError from "shared/errors/AppError";
+import { AppErrorCode } from "shared/errors/error-codes";
+import { HttpStatus } from "shared/http/http-status";
 
 type ValidationResult = {
   error?: {

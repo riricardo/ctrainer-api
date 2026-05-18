@@ -1,11 +1,11 @@
 import express from "express";
-import buildWorkoutsController from "./workouts.controller";
-import requireAuth from "../../middleware/requireAuth";
-import { AppContainer } from "../../shared/types/container";
+import buildWorkoutsController from "modules/workouts/workouts.controller";
+import requireAuth from "middleware/requireAuth";
+import { AppContainer } from "shared/types/container";
 import {
   validateCreateWorkout,
   validateUpdateWorkout,
-} from "./workouts.validation";
+} from "modules/workouts/workouts.validation";
 
 const buildWorkoutRoutes = (container: AppContainer) => {
   const router = express.Router();

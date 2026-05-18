@@ -1,4 +1,4 @@
-import { getAuth } from "./firebase-admin";
+import { getAuth } from "infrastructure/firebase/firebase-admin";
 
 const verifyIdToken = async (
   token: string

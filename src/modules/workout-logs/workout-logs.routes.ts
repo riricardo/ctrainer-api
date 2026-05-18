@@ -1,8 +1,8 @@
 import express from "express";
-import buildWorkoutLogsController from "./workout-logs.controller";
-import requireAuth from "../../middleware/requireAuth";
-import { AppContainer } from "../../shared/types/container";
-import { validateCreateWorkoutLog } from "./workout-logs.validation";
+import buildWorkoutLogsController from "modules/workout-logs/workout-logs.controller";
+import requireAuth from "middleware/requireAuth";
+import { AppContainer } from "shared/types/container";
+import { validateCreateWorkoutLog } from "modules/workout-logs/workout-logs.validation";
 
 const buildWorkoutLogRoutes = (container: AppContainer) => {
   const router = express.Router();

@@ -1,6 +1,6 @@
 import mongoose, { Model, Schema } from "mongoose";
-import { WorkoutExerciseInput } from "./workouts.dtos";
-import { BaseDocument } from "../../shared/types/mongoose";
+import { WorkoutExerciseInput } from "modules/workouts/workouts.dtos";
+import { BaseDocument } from "shared/types/mongoose";
 
 export type WorkoutFields = {
   ownerUserId: string;

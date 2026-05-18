@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import logger from "../config/logger";
+import logger from "config/logger";
 import {
   isDbConnectionError,
   triggerDbConnect,
-} from "../infrastructure/db/mongoose";
-import AppError from "../shared/errors/AppError";
-import { AppErrorCode } from "../shared/errors/error-codes";
-import { HttpStatus } from "../shared/http/http-status";
+} from "infrastructure/db/mongoose";
+import AppError from "shared/errors/AppError";
+import { AppErrorCode } from "shared/errors/error-codes";
+import { HttpStatus } from "shared/http/http-status";
 
 type ErrorResponse = {
   status: HttpStatus;

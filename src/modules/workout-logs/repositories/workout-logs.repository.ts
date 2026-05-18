@@ -1,4 +1,4 @@
-import { WorkoutLogFields, WorkoutLogDocument } from "../workout-logs.model";
+import { WorkoutLogFields, WorkoutLogDocument } from "modules/workout-logs/workout-logs.model";
 
 export type WorkoutLogInput = WorkoutLogFields;
 

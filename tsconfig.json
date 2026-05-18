@@ -3,6 +3,16 @@
     "target": "ES2019",
     "module": "CommonJS",
     "rootDir": "src",
+    "paths": {
+      "app/*": ["./src/app/*"],
+      "app": ["./src/app.ts"],
+      "config/*": ["./src/config/*"],
+      "infrastructure/*": ["./src/infrastructure/*"],
+      "middleware/*": ["./src/middleware/*"],
+      "modules/*": ["./src/modules/*"],
+      "shared/*": ["./src/shared/*"],
+      "package.json": ["./package.json"]
+    },
     "outDir": "dist",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

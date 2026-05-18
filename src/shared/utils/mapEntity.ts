@@ -1,4 +1,4 @@
-import mapDocument from "./mapDocument";
+import mapDocument from "shared/utils/mapDocument";
 
 const mapEntity = <T extends Record<string, unknown>>(doc: unknown): T | null =>
   mapDocument<T>(doc as Parameters<typeof mapDocument<T>>[0]);

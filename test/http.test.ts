@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { buildRootHandler, isOriginAllowed } from "../src/app/http";
-import { AppEnv } from "../src/config/env";
+import { buildRootHandler, isOriginAllowed } from "app/http";
+import { AppEnv } from "config/env";
 
 const createEnv = (docsEnabled: boolean): AppEnv => ({
   nodeEnv: "test",

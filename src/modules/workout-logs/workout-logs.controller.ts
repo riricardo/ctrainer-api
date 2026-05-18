@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import asyncHandler from "../../shared/utils/asyncHandler";
-import { HttpStatus } from "../../shared/http/http-status";
-import createWorkoutLogUseCase from "./use-cases/create-workout-log.usecase";
-import listMyWorkoutLogsUseCase from "./use-cases/list-my-workout-logs.usecase";
-import { AppContainer } from "../../shared/types/container";
-import { CreateWorkoutLogRequestBody } from "./workout-logs.dtos";
-import { mapWorkoutLog } from "./workout-logs.mapper";
+import asyncHandler from "shared/utils/asyncHandler";
+import { HttpStatus } from "shared/http/http-status";
+import createWorkoutLogUseCase from "modules/workout-logs/use-cases/create-workout-log.usecase";
+import listMyWorkoutLogsUseCase from "modules/workout-logs/use-cases/list-my-workout-logs.usecase";
+import { AppContainer } from "shared/types/container";
+import { CreateWorkoutLogRequestBody } from "modules/workout-logs/workout-logs.dtos";
+import { mapWorkoutLog } from "modules/workout-logs/workout-logs.mapper";
 
 const buildWorkoutLogsController = (container: AppContainer) => {
   const { workoutLogsRepository } = container;
