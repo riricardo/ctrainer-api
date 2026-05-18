@@ -11,7 +11,7 @@ const mapWorkoutLog = (log: WorkoutLogDocument | null): WorkoutLogResponse | nul
   return {
     ...mapped,
     createdBy: mapped.ownerUserId,
-    workoutId: mapped.workoutId ? String(mapped.workoutId) : undefined,
+    workoutId: String(mapped.workoutId),
   };
 };
 

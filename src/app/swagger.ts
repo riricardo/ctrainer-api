@@ -97,6 +97,7 @@ const swaggerSpec = swaggerJSDoc({
         },
         WorkoutLog: {
           type: "object",
+          required: ["workoutId", "status"],
           properties: {
             id: { type: "string" },
             ownerUserId: { type: "string" },
@@ -120,6 +121,7 @@ const swaggerSpec = swaggerJSDoc({
         },
         WorkoutLogCreate: {
           type: "object",
+          required: ["workoutId", "status"],
           properties: {
             workoutId: { type: "string" },
             startedAt: { type: "string" },

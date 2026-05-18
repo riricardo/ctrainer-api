@@ -12,11 +12,11 @@ export type WorkoutLogExerciseInput = {
 };
 
 export type CreateWorkoutLogRequestBody = {
-  workoutId?: string;
+  workoutId: string;
   startedAt?: string;
   completedAt?: string;
   durationSeconds?: number;
-  status?: WorkoutLogStatus;
+  status: WorkoutLogStatus;
   notes?: string;
   exercises?: WorkoutLogExerciseInput[];
 };
@@ -25,11 +25,11 @@ export type WorkoutLogResponse = {
   id: string;
   ownerUserId?: string;
   createdBy?: string;
-  workoutId?: string;
+  workoutId: string;
   startedAt?: string;
   completedAt?: string;
   durationSeconds?: number;
-  status?: WorkoutLogStatus;
+  status: WorkoutLogStatus;
   notes?: string;
   exercises?: WorkoutLogExerciseInput[];
   createdAt?: string;

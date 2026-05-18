@@ -5,11 +5,11 @@ import { BaseDocument } from "shared/types/mongoose";
 
 export type WorkoutLogFields = {
   ownerUserId: string;
-  workoutId?: string;
+  workoutId: mongoose.Types.ObjectId | string;
   startedAt?: Date;
   completedAt?: Date;
   durationSeconds?: number;
-  status?: WorkoutLogStatus;
+  status: WorkoutLogStatus;
   notes?: string;
   exercises?: WorkoutLogExerciseInput[];
 };
@@ -33,13 +33,14 @@ const workoutLogExerciseSchema = new Schema<WorkoutLogExerciseInput>(
 const workoutLogSchema = new Schema<WorkoutLogDocument>(
   {
     ownerUserId: { type: String, required: true, index: true },
-    workoutId: { type: Schema.Types.ObjectId, ref: "Workout" },
+    workoutId: { type: Schema.Types.ObjectId, ref: "Workout", required: true },
     startedAt: { type: Date },
     completedAt: { type: Date },
     durationSeconds: { type: Number, min: 0 },
     status: {
       type: String,
       enum: Object.values(WorkoutLogStatus),
+      required: true,
       default: WorkoutLogStatus.Completed,
     },
     notes: { type: String, trim: true, default: "" },
